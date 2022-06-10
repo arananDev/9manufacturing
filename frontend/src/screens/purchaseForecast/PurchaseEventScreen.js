@@ -134,7 +134,7 @@ function PurchaseEvent() {
           else {
               console.log(JSON.stringify(e.response.data.message))
               localStorage.setItem('missingStock',JSON.stringify(e.response.data.message))
-              window.open('/stockToBuyPrompt')
+              window.open('#/stockToBuyPrompt')
           }
       }
       setLoading(false)

@@ -27,7 +27,7 @@ function CreatePurchaseOrderScreen() {
             }
             else {
                 localStorage.setItem('missingStock',JSON.stringify(e.response.data.data))
-                window.open('/stockToBuyPrompt')
+                window.open('#/stockToBuyPrompt')
             }
         }
         setLoading(false)
