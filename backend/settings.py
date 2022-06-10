@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-(@k$@a@o-^5r^9jb)mxmcr652j1(c61--!rwjb6m2kfxw)zhr4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'manufacturing9.herokuapp.com']
 
 
 # Application definition
@@ -84,6 +84,7 @@ SIMPLE_JWT = {
 }
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -98,7 +99,9 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'frontend/build')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -117,10 +120,23 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+'''
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'manufacturing',
+        'USER': 'postgres',
+        'PASSWORD': os.environ.get('DB_PASS'),
+        'HOST': 'manufacturing-identifier.cjgdghzzx3yi.eu-west-1.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
@@ -160,12 +176,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(os.getcwd(), 'static')
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+    BASE_DIR / 'frontend/build/static'
+]
+
 CORS_ALLOW_ALL_ORIGINS = True
 
-MEDIA_ROOT = 'static/userUpload'
+MEDIA_ROOT = BASE_DIR / 'static/userUpload'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+if os.getcwd() == '/app':
+    DEBUG = False

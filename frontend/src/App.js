@@ -1,6 +1,7 @@
 import Header from './components/Header'
 import { Container } from '@mui/material';
-import {BrowserRouter , Routes,  Route} from 'react-router-dom'
+import {HashRouter as  Router,  Route} from 'react-router-dom'
+import { Routes} from 'react-router-dom'
 import ForecastScreen from './screens/ForecastScreen'
 import TestScreen from './screens/TestScreen'
 import PurchaseForecastScreen from './screens/purchaseForecast/PurchaseForecastScreen'
@@ -31,7 +32,7 @@ import PurchaseOrdersOutstandingScreen from './screens/OutstandingPurchaseOrders
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Header />
       <main >
         <Container >
@@ -77,7 +78,7 @@ function App() {
           </Routes>
         </Container>
       </main>
-    </BrowserRouter>
+    </Router>
     
     
 
