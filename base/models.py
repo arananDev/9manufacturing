@@ -32,7 +32,7 @@ class StockItem(models.Model):
     ]
     code = models.CharField(max_length= 25, unique = True, primary_key= True, )
     description = models.CharField(max_length= 75, null = True, blank = True )
-    defaultSupplier = models.ForeignKey(Supplier, on_delete= models.SET_NULL, null = True, default = None)
+    defaultSupplier = models.ForeignKey(Supplier, on_delete= models.SET_NULL, null = True, default = None, blank = True)
     quantityInStock = models.DecimalField(max_digits= 10, decimal_places= 4, default = 0)
     quantityOutstanding = models.DecimalField(max_digits= 10, decimal_places= 4, default = 0)
     unit = models.CharField(max_length= 5, choices = uom, default = 'each')

@@ -1,7 +1,5 @@
 import code
-from msilib.schema import Error
 import os
-from shutil import ExecError
 from this import d
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
