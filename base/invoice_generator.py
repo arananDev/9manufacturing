@@ -2,7 +2,7 @@ import requests
 import json
 import pytz
 import locale
-from django.core.files.temp import NamedTemporaryFile
+
 from datetime import datetime
 
 
@@ -114,16 +114,13 @@ class InvoiceGenerator:
             description=description
         ))
 
-    def download(self, file_path):
+    def download(self):
         """ Directly send the request and store the file on path """
         json_string = self._to_json()
         response = requests.post(InvoiceGenerator.URL, json=json.loads(json_string), stream=True, headers={'Accept-Language': InvoiceGenerator.LOCALE})
         if response.status_code == 200:
-            temp_file = NamedTemporaryFile(delete=True)
-            temp_file.write(response)
-            print('something')
-            return response
-            
+            #open(file_path, 'wb').write(response.content)
+            return response.content
         else:
             raise Exception(f"Invoice download request returned the following message:{response.json()} Response code = {response.status_code} ")
 

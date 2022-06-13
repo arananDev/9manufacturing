@@ -57,10 +57,11 @@ const generateClassName = createGenerateClassName({
   seed: 'mt'
 });
 
-function PolLive({id, params}) {
+function PolComplete({id, params}) {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState(params['data'])
+    const [file, setFile] = useState('')
     const goodsRecieved = {}
     data.forEach(d => {goodsRecieved[d['code']] = d['goodsRecieved']})
     const supplier = params['supplier']
@@ -76,25 +77,39 @@ function PolLive({id, params}) {
         {title: 'Goods Recieved', field: 'goodsRecieved',}
     ]
     
-    
-
-    useEffect(() => {
-        setLoading(loading)
-    }, [loading])
-
     async function handleDownload() {
       setLoading(true)
       try{
-        await axios.get(`/api/downloadPO/${id}`)
-        alert(`Downloaded PO ${id}`)
+      const response =  await axios.get(`/api/downloadPO/${id}`)
+      console.log(response)
+      const url = window.URL.createObjectURL(
+        new Blob([response.body]),
+      );
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute(
+        'download',
+        `po-invoice-${id}.pdf`,
+      );
+      document.body.appendChild(link);
+
+      // Start download
+      link.click();
+
+      // Clean up and remove the link
+      link.parentNode.removeChild(link);
+      alert(`Purchase Order ${id} has been downloaded`)
 
       }catch(err){
         alert(err['response']['data']['message'])
 
       }
       
+      
       setLoading(false)
   }
+    
+
     
 
     useEffect(() => {
@@ -157,5 +172,5 @@ function PolLive({id, params}) {
   
 }
 
-export default PolLive;
+export default PolComplete;
 

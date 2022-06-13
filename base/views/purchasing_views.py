@@ -10,6 +10,7 @@ from ..serializers import *
 from ..algorithms import *
 from ..invoice_generator import InvoiceGenerator 
 from datetime import date
+from django.http import HttpResponse
 
 
 @api_view(['GET'])
@@ -261,10 +262,10 @@ def downloadPO(request, pk):
         invoice.download(download_location + f'/PO-invoice-{pk}.pdf')
 
         '''
-        
-        
-
-        return Response({'message': 'success'}, status.HTTP_201_CREATED)
+        pdf = invoice.download()
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename=PO-invoice-{pk}.pdf'
+        return response
 
     except Exception as e:
         return Response({'message': f' Error! {str(e)}'}, status.HTTP_500_INTERNAL_SERVER_ERROR)
