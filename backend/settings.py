@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-(@k$@a@o-^5r^9jb)mxmcr652j1(c61--!rwjb6m2kfxw)zhr4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'manufacturing9.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'manufacturing9.herokuapp.com','manufacturing9-dev.herokuapp.com' ]
 
 
 # Application definition
@@ -195,4 +195,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 if os.getcwd() == '/app':
     DEBUG = False
-    
