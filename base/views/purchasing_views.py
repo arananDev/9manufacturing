@@ -253,11 +253,16 @@ def downloadPO(request, pk):
                 description = p.stockCode.code.description,
                 quantity = float( p.quantity),
                 unit_cost = float(p.price)),
+        '''
         home = os.path.expanduser("~")
         print('Home path------------',home)
         download_location = os.path.join(home,'Downloads')
         print('download path------------',download_location)
         invoice.download(download_location + f'/PO-invoice-{pk}.pdf')
+
+        '''
+        
+        
 
         return Response({'message': 'success'}, status.HTTP_201_CREATED)
 
