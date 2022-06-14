@@ -83,7 +83,6 @@ function PolLive({id, params}) {
       setLoading(true)
       try{
       const response =  await axios.get(`/api/downloadPO/${id}`)
-      console.log(response)
       const url = window.URL.createObjectURL(
         new Blob([response.body]),
       );
