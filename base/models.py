@@ -20,10 +20,12 @@ class Supplier(models.Model):
         return f'{self.code} : {self.name}'
 
 class StockItem(models.Model):
+    
     uom = [
         ('Kg', 'Kg'),
         ('Ltr', 'Ltr'),
         ('Each', 'Each'),
+        ('Case', 'Case')
     ] 
     types = [
         ('COM', 'COM'),
@@ -37,6 +39,7 @@ class StockItem(models.Model):
     quantityOutstanding = models.DecimalField(max_digits= 10, decimal_places= 4, default = 0)
     unit = models.CharField(max_length= 5, choices = uom, default = 'each')
     stockType = models.CharField(max_length= 10, choices = types,)
+    
 
 
     def __str__(self): 

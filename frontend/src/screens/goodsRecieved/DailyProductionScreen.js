@@ -23,7 +23,6 @@ function DailyProductionScreen() {
             const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
             const yyyy = today.getFullYear();
             today = dd + '/' + mm + '/' + yyyy;
-            console.log(`Daily Production-${String(today)}.csv`)
             link.setAttribute(
               'download',
               `Daily Production-${String(today)}.csv`,

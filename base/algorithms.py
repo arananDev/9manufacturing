@@ -168,6 +168,30 @@ def imports():
         s.save()
         if i % 100 == 0:
             print(i)
+
+
+def importStockTake():
+    root = r'C:\Users\user\Documents\old 9man project/prepared.csv'
+    print('li')
+    data = pd.read_csv(root)
+    to_save = []
+    for i, row in data.iterrows():
+        quantity =  float(row['quantity'])
+        code = row['code'].upper().strip()
+        stock = StockItem.objects.filter(code = code )
+        if stock.exists():
+            stock = stock[0]
+            stock.quantityInStock = quantity
+            stock.unit = str(row['Stock Unit'])
+            stock.productGroup = str(row['Product Group'])
+        else:
+            stock = StockItem(code = code, quantityInStock = quantity, unit =  str(row['Stock Unit']), productGroup = str(row['Product Group']))
+        print((stock.code, stock.quantityInStock))
+        stock.save()
+        
+
+
+        
     
         
         
