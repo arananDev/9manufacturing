@@ -13,8 +13,10 @@ function DailyProductionScreen() {
         setLoading(true)
         try{
             const response =  await axios.get('/api/warehousing/generate_daily_production_sheet/')
+            console.log(response.data)
+            console.log(Object.keys(response))
             const url = window.URL.createObjectURL(
-              new Blob([response.body]),
+              new Blob([response.data]),
             );
             const link = document.createElement('a');
             link.href = url;

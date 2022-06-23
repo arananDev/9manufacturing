@@ -20,6 +20,7 @@ const authorisation = {
     'purchasing': 'poPassword',
     'warehousing': 'wPassword',
     'purchasing2': 'Password',
+    'hari': 'finance123',
 }
 
 

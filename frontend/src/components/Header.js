@@ -146,6 +146,23 @@ function Header() {
               }
             ];
             break
+          case 'hari':
+            menuItems =  [
+              {
+                text: 'Stock Evaluation',
+                icon: EventIcon,
+                onClick: () => navigate("/finance/stockEvaluation"),
+              },
+              {
+                text: 'Logout',
+                icon: LogoutIcon,
+                onClick: () => {
+                  localStorage.removeItem('user')
+                  navigate('/userLogin')
+                }
+              }
+            ];
+            break
       case 'warehousing':
         menuItems = [
             {
