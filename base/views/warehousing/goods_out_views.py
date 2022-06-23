@@ -11,8 +11,7 @@ import pandas as pd
 
 @api_view(['GET'])
 def generate_daily_production_sheet(request):
-    reduction_request_from_production()
-    return Response({'message': 'success'}, status.HTTP_200_OK)
+    return reduction_request_from_production()
 
 class upload_reduction_request(generics.CreateAPIView):
     parser_classes = (FormParser, MultiPartParser)

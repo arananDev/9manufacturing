@@ -5,6 +5,7 @@ from .views import user_views
 from .views import stocklist_views
 from .views import workOrder_views
 from .views import purchasing_forecast_views
+from .views import finance_views
 from .views.warehousing import goods_recieved_views, goods_out_views
 
 
@@ -59,9 +60,10 @@ urlpatterns = [
     path('getToRemove/', workOrder_views.getToRemove, name = 'getting events that you should remove'),
     path('removeBySalesOrder/', workOrder_views.removeBySalesOrder, name = 'remove stock by sales orders'),
 
-    ## Warehousing views 
+    #Finance 
+    path('stockEvaluation/', finance_views.stock_evaluation, name = 'Stock Evaluation'),
 
-    # Goods recieved
+    # Warehousing 
     path('warehousing/downloadGoodsRecieved/', goods_recieved_views.downloadGoodsRecieved, name = 'Warehousing goods recieved'),
     path('warehousing/goodsRecieved/', goods_recieved_views.goodsRecieved, name = 'Warehousing goods recieved'),  
     path('warehousing/generate_daily_production_sheet/', goods_out_views.generate_daily_production_sheet, name = 'generate daily production sheet'),  

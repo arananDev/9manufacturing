@@ -26,6 +26,7 @@ import GoodsRecievedScreen from './screens/goodsRecieved/GoodsRecievedScreen'
 import RecieveOrderScreen from './screens/goodsRecieved/RecieveOrderScreen'
 import GoodsOutScreen from './screens/goodsRecieved/GoodsOutScreen'
 import DailyProductionScreen from './screens/goodsRecieved/DailyProductionScreen'
+import StockEvaluationScreen from './screens/finance/StockEvaluationScreen'
 import PurchaseOrdersOutstandingScreen from './screens/OutstandingPurchaseOrders/PurchaseOrdersOutstandingScreen'
 
 
@@ -75,6 +76,9 @@ function App() {
             <Route path = '/warehousing/dailyProduction' element = {<DailyProductionScreen/>} />
             <Route path = '/warehousing/goodsOut' element = {<GoodsOutScreen/>} />
             <Route path = '/warehousing/recieveOrder/:id' element = {<RecieveOrderScreen/>} />
+
+            //Finance
+            <Route path = '/finance/stockEvaluation' element = {<StockEvaluationScreen/>} />
           </Routes>
         </Container>
       </main>

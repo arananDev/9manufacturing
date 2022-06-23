@@ -79,25 +79,36 @@ function PolLive({id, params}) {
     ]
     
 
-    useEffect(() => {
-        setLoading(loading)
-    }, [loading])
-
-    
-
     async function handleDownload() {
-        setLoading(true)
-        try{
-          await axios.get(`/api/downloadPO/${id}`)
-          alert(`PO ${id} has been downloaded`)
+      setLoading(true)
+      try{
+      const response =  await axios.get(`/api/downloadPO/${id}`)
+      const url = window.URL.createObjectURL(
+        new Blob([response.body]),
+      );
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute(
+        'download',
+        `po-invoice-${id}.pdf`,
+      );
+      document.body.appendChild(link);
 
-        }catch(err){
-          alert(err['response']['data']['message'])
+      // Start download
+      link.click();
 
-        }
-        
-        setLoading(false)
-    }
+      // Clean up and remove the link
+      link.parentNode.removeChild(link);
+      alert(`Purchase Order ${id} has been downloaded`)
+
+      }catch(err){
+        alert(err['response']['data']['message'])
+
+      }
+      
+      
+      setLoading(false)
+  }
    
     
 
