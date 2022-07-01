@@ -43,23 +43,32 @@ def importStockTake():
         stock.save()
 
 def temp():
-    root = r'C:\Users\user\Downloads\stockTakeSystem.csv'
+    root = r'C:\Users\user\Downloads\ligma.csv'
     data = pd.read_csv(root)
-    data = data[['Code', 'Stock unit of Measurement', 'Actual Quantity']]
-    data = data.groupby(['Code', 'Stock unit of Measurement' ], as_index= False).sum()
+    data = data[['Code', 'Purchase Unit', 'Supplier Price', 'Supplier code', 'Conversion Rate']]
+    #StockToBuy.objects.all().delete()
 
     for i, row in data.iterrows():
+        if i <= 261:
+            continue
         code = row['Code'].upper().strip()
-        unit = row['Stock unit of Measurement'].strip().lower().capitalize()
-        quantity = row['Actual Quantity']
-        if StockItem.objects.filter(code = code).exists():
-            stock = StockItem.objects.get(code = code)
-            stock.unit = unit
-            stock.quantityInStock = float(quantity)
+        purchase_unit = row['Purchase Unit'].strip().lower().capitalize()
+        supplier_code = str(row['Supplier code']).upper().strip()
+        stock = StockItem.objects.get(code = code)
+        if Supplier.objects.filter(code = supplier_code).exists():
+            supplier = Supplier.objects.get(code = supplier_code)
+        else: 
+            supplier = Supplier(code = supplier_code)
+            supplier.save()
+        if 'PAC' in code:
+            tax_code = 'standardRate'
         else:
-            stock = StockItem(code = code, unit = unit, quantityInStock = float(quantity))
-        print(( i, stock))
-        stock.save()
+            tax_code = 'zeroRated'
+        stb = StockToBuy(code = stock, ratioToStock = float(row['Conversion Rate']), supplier = supplier, price = float(row['Supplier Price']), purchaseUnit = purchase_unit )
+        stb.save()
+        print(i, stb) 
+        
+        
         
 
 
