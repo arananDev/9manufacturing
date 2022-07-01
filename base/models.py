@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from datetime import date
 import os 
 import pandas as pd
-
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 
@@ -25,20 +25,28 @@ class StockItem(models.Model):
         ('Kg', 'Kg'),
         ('Ltr', 'Ltr'),
         ('Each', 'Each'),
-        ('Case', 'Case')
     ] 
     types = [
         ('COM', 'COM'),
         ('ING/PACK', 'ING/PACK'),
         ('DSI', 'DSI'),
     ]
+
+    def validate_uom(unit):
+        if unit not in ('Kg', 'Ltr', 'Each', ):
+            raise ValidationError(f'{unit} is not a valid unit of measure: Kg, Ltr, and Each')
+    
+    def validate_type(type):
+        if type not in ('COM', 'DSI', 'ING/PACK', ):
+            raise ValidationError(f'{type} is not a valid stock type')
+
     code = models.CharField(max_length= 25, unique = True, primary_key= True, )
     description = models.CharField(max_length= 75, null = True, blank = True )
     defaultSupplier = models.ForeignKey(Supplier, on_delete= models.SET_NULL, null = True, default = None, blank = True)
-    quantityInStock = models.DecimalField(max_digits= 10, decimal_places= 4, default = 0)
-    quantityOutstanding = models.DecimalField(max_digits= 10, decimal_places= 4, default = 0)
-    unit = models.CharField(max_length= 5, choices = uom, default = 'each')
-    stockType = models.CharField(max_length= 10, choices = types,)
+    quantityInStock = models.DecimalField(max_digits= 30, decimal_places= 4, default = 0)
+    quantityOutstanding = models.DecimalField(max_digits= 30, decimal_places= 4, default = 0)
+    unit = models.CharField(max_length= 5, choices = uom, default = 'each', validators = [validate_uom])
+    stockType = models.CharField(max_length= 10, choices = types, validators = [validate_type])
     
 
 
@@ -63,6 +71,8 @@ class Event(models.Model):
         ('live', 'Live'),
         ('complete', 'Complete')
     ] 
+
+    
     packID = models.ForeignKey(Pack, on_delete = models.CASCADE)
     customerCode = models.ForeignKey(Customer, on_delete= models.CASCADE)
     cookDate = models.DateField()
@@ -119,12 +129,18 @@ class PurchaseOrder(models.Model):
         ('edit', 'For Editing'),
         ('outstanding', 'Outstanding'),
     ]
+
+    def validate_status(status):
+        if status not in {'live', 'completed', 'edit', 'outstanding'}:
+            raise ValidationError('incorrect status')
+
+
     supplier = models.ForeignKey(Supplier, on_delete= models.CASCADE)
     dateCreated = models.DateField(auto_now_add=True, blank=True)
     dateRequested = models.DateField()
     totalNet = models.DecimalField(max_digits= 13, decimal_places= 2, default = 0)
     totalVat = models.DecimalField(max_digits= 13, decimal_places= 2, default = 0)
-    status = models.CharField(max_length= 20, choices = statuses, default = 'edit')
+    status = models.CharField(max_length= 20, choices = statuses, default = 'edit', validators = [validate_status])
 
 
     def __str__(self):
