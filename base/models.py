@@ -25,6 +25,8 @@ class StockItem(models.Model):
         ('Kg', 'Kg'),
         ('Ltr', 'Ltr'),
         ('Each', 'Each'),
+        ('MULTI', 'MULTI'),
+
     ] 
     types = [
         ('COM', 'COM'),
@@ -33,7 +35,7 @@ class StockItem(models.Model):
     ]
 
     def validate_uom(unit):
-        if unit not in ('Kg', 'Ltr', 'Each', ):
+        if unit not in ('Kg', 'Ltr', 'Each', 'MULTI' ):
             raise ValidationError(f'{unit} is not a valid unit of measure: Kg, Ltr, and Each')
     
     def validate_type(type):
